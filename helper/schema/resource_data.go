@@ -474,7 +474,11 @@ func (d *ResourceData) get(addr []string, source getSource) getResult {
 	if exact {
 		result, err = d.multiReader.ReadFieldExact(addr, level)
 	} else {
+		start := time.Now().Nanosecond()
+		log.Printf("[TIME] -> 478: %d", start)
 		result, err = d.multiReader.ReadFieldMerge(addr, level)
+		end := time.Now().Nanosecond()
+		log.Printf("[TIME] <- 482: %d (Diff: %d)\n[ARGS] Set: %s; Addr: %#v\n", end, end-start, level, addr)
 	}
 	if err != nil {
 		panic(err)
